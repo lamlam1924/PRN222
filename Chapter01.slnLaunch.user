@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "UDPServerApp\\UDPServerApp.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "UDPClientApp\\UDPClientApp.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
