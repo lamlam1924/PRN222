@@ -1,0 +1,35 @@
+@model TravelDataAccess.Models.Trip
+
+@{
+    ViewData["Title"] = "Trip Details";
+}
+
+<h2>Trip Details</h2>
+<hr/>
+
+<table class="table table-bordered">
+    <tr>
+        <th width="200">Code</th>
+        <td>@Model.Code</td>
+    </tr>
+    <tr>
+        <th>Destination</th>
+        <td>@Model.Destination</td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>@Model.Price.ToString("N0") VND</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>@Model.Status</td>
+    </tr>
+</table>
+
+<div>
+    @if (ViewBag.Role == "Admin")
+    {
+        <a asp-action="Edit" asp-route-id="@Model.TripID" class="btn btn-warning">Edit</a>
+    }
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

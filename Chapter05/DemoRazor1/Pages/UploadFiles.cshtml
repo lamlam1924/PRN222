@@ -1,0 +1,19 @@
+@page
+@model DemoRazor1.Pages.UploadFilesModel
+@{
+    ViewData["Title"] = "Upload Files";
+}
+<h3>Upload files</h3>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+
+<form method="post" enctype="multipart/form-data" class="mt-3">
+    <div class="mb-3">
+        <label class="form-label">Choose file(s)</label>
+        <input type="file" asp-for="FileUploads" multiple class="form-control" />
+    </div>
+    <button class="btn btn-primary" type="submit">Upload</button>
+</form>

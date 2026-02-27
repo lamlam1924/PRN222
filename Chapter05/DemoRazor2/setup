@@ -1,0 +1,31 @@
+dotnet add package Microsoft.EntityFrameworkCore --version 8.0.23
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.23
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.23
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.23
+
+// This file shows commands and explains the migration process
+
+/*
+MIGRATION COMMANDS DEMONSTRATION:
+
+1. Create initial migration:
+   dotnet ef migrations add InitialCreate
+
+2. Update database:
+   dotnet ef database update
+
+3. Add new migration (after model changes):
+   dotnet ef migrations add AddProductDescription
+
+4. View migration SQL:
+   dotnet ef migrations script
+
+5. Remove last migration (if not applied):
+   dotnet ef migrations remove
+
+6. Update to specific migration:
+   dotnet ef database update InitialCreate
+
+7. Generate SQL script for specific migration:
+   dotnet ef migrations script InitialCreate AddProductDescription
+*/

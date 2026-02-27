@@ -1,0 +1,36 @@
+@model TravelDataAccess.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<h2>Booking Details</h2>
+<hr/>
+
+<table class="table table-bordered">
+    <tr>
+        <th width="200">Booking Date</th>
+        <td>@Model.BookingDate.ToString("dd/MM/yyyy")</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>@Model.Status</td>
+    </tr>
+    <tr>
+        <th>Customer</th>
+        <td>@Model.Customer.FullName (@Model.Customer.Code)</td>
+    </tr>
+    <tr>
+        <th>Trip</th>
+        <td>@Model.Trip.Code - @Model.Trip.Destination</td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>@Model.Trip.Price.ToString("N0") VND</td>
+    </tr>
+</table>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.BookingID" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

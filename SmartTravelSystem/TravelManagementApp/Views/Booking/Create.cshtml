@@ -1,0 +1,73 @@
+@model TravelDataAccess.Models.Booking
+
+@{
+    ViewData["Title"] = "Create Booking";
+    var isAdmin = ViewBag.IsAdmin ?? false;
+}
+
+<h2>Create New Booking</h2>
+<hr/>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            @if (isAdmin)
+            {
+                <div class="mb-3">
+                    <label asp-for="CustomerID" class="form-label">Customer</label>
+                    <select asp-for="CustomerID" class="form-control" asp-items="@(ViewData["CustomerID"] as SelectList)">
+                        <option value="">-- Chọn Customer --</option>
+                    </select>
+                    <span asp-validation-for="CustomerID" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" name="CustomerID" value="@ViewBag.CustomerID" />
+            }
+            
+            <div class="mb-3">
+                <label asp-for="TripID" class="form-label">Trip</label>
+                <select asp-for="TripID" class="form-control" asp-items="@(ViewData["TripID"] as SelectList)">
+                    <option value="">-- Chọn Trip --</option>
+                </select>
+                <span asp-validation-for="TripID" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" class="form-control">
+                    <option value="Pending" selected>Pending</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,1 @@
+dotnet ef dbcontext scaffold "Server=localhost;Database=MyStore3;User Id=sa;Password=123;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -o Models -c MyStore3Context --data-annotations --use-database-names --force

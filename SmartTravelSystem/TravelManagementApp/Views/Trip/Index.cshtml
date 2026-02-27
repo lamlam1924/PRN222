@@ -1,0 +1,44 @@
+@model IEnumerable<TravelDataAccess.Models.Trip>
+
+@{
+    ViewData["Title"] = "Trips";
+}
+
+<h2>Trip List</h2>
+
+@if (ViewBag.Role == "Admin")
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Destination</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.Code</td>
+            <td>@item.Destination</td>
+            <td>@item.Price.ToString("N0") VND</td>
+            <td>@item.Status</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.TripID" class="btn btn-sm btn-info">Details</a>
+                @if (ViewBag.Role == "Admin")
+                {
+                    <a asp-action="Edit" asp-route-id="@item.TripID" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.TripID" class="btn btn-sm btn-danger">Delete</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

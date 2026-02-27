@@ -1,0 +1,222 @@
+
+# =============================================================================
+# ASP.NET Core / .NET - Comprehensive .gitignore
+# Covers: Visual Studio 2022, VS Code, JetBrains Rider, Cursor, AntiGravity
+# =============================================================================
+
+# -----------------------------------------------
+# .NET Build Output
+# -----------------------------------------------
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# -----------------------------------------------
+# .NET Core / ASP.NET Core
+# -----------------------------------------------
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/Properties/launchSettings.json
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+nuget.dgspec.json
+
+# dotnet publish output
+**/publish/
+**/PublishOutput/
+
+# -----------------------------------------------
+# Visual Studio 2022
+# -----------------------------------------------
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+*.VC.opendb
+
+# VS Test Results
+TestResults/
+[Tt]est[Rr]esult*/
+*.TestResult.xml
+*.trx
+*.coverage
+*.coveragexml
+*.runsettings
+*.testsettings
+
+# VS Crash dumps
+*.dmp
+*.mdmp
+
+# VS Profiling
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# Backup files
+**/*_backup*
+**/*.bak
+**/*~
+
+# -----------------------------------------------
+# VS Code
+# -----------------------------------------------
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+*.code-workspace
+.history/
+
+# -----------------------------------------------
+# JetBrains Rider
+# -----------------------------------------------
+.idea/
+*.sln.iml
+.idea.*.xml
+.idea/**/.gitignore
+cmake-build-*/
+*.iws
+out/
+
+# Rider cache files
+.idea/.idea.*/
+*.rider.unity3dRider.json
+**/.fleet/
+
+# -----------------------------------------------
+# Cursor IDE
+# -----------------------------------------------
+.cursor/
+.cursorignore
+.cursorindexingignore
+**/.cursortutor
+
+# -----------------------------------------------
+# AntiGravity
+# -----------------------------------------------
+.antigravity/
+*.antigravity
+
+# -----------------------------------------------
+# ASP.NET Core Specifics
+# -----------------------------------------------
+
+# User secrets
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/secrets.json
+**/usersecrets.json
+**/appsettings.*.json
+!**/appsettings.json
+
+# Static files generated
+**/wwwroot/dist/
+**/wwwroot/.cache/
+
+# Entity Framework migrations (chỉ bỏ comment nếu không muốn commit migrations)
+# **/Migrations/
+
+# -----------------------------------------------
+# OS Files
+# -----------------------------------------------
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# -----------------------------------------------
+# Node.js (nếu dùng bundler như webpack/vite)
+# -----------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+.pnp.*
+.pnp.js
+dist/
+.cache/
+
+# -----------------------------------------------
+# Docker
+# -----------------------------------------------
+.docker/
+docker-compose.override.yml
+
+# -----------------------------------------------
+# Azure / CI/CD
+# -----------------------------------------------
+.azure/
+.github/secrets/
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# -----------------------------------------------
+# Certificates & Secrets
+# -----------------------------------------------
+*.pfx
+*.cer
+*.crt
+*.key
+*.p12
+*.pem
+.env
+.env.*
+!.env.example

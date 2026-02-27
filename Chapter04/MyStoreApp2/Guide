@@ -1,0 +1,30 @@
+dotnet add package Microsoft.EntityFrameworkCore --version 8.0.23
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.23
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.23
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.23
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 8.0.23
+
+dotnet ef dbcontext scaffold "Server=localhost;Database=MyStore2;User Id=sa;Password=123;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -o Models -c MyStore2Context --data-annotations --use-database-names --force
+
+dotnet tool install -g dotnet-ef --version 8.0.23
+dotnet tool install -g dotnet-aspnet-codegenerator --version 8.0.23
+
+dotnet aspnet-codegenerator controller -name ProductsController -m Product -dc TravelContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+
+--remove
+dotnet remove package Microsoft.EntityFrameworkCore
+dotnet remove package Microsoft.EntityFrameworkCore.SqlServer
+dotnet remove package Microsoft.EntityFrameworkCore.Design
+dotnet remove package Microsoft.EntityFrameworkCore.Tools
+dotnet remove package Microsoft.VisualStudio.Web.CodeGeneration.Design
+
+dotnet tool uninstall -g dotnet-ef
+dotnet tool uninstall -g dotnet-aspnet-codegenerator
+
+--check
+dotnet ef --version
+dotnet aspnet-codegenerator --version
+dotnet tool list -g
+
+
+

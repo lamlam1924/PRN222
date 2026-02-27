@@ -1,0 +1,38 @@
+@page
+@model DemoRazor1.Pages.CustomerFormModel
+@{
+    Layout = "./Shared/_Layout.cshtml";
+    ViewData["Title"] = "Customer form";
+}
+<h3>Customer information</h3>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post" class="mt-3">
+    <div class="mb-3">
+        <label asp-for="CustomerInfo.CustomerName" class="form-label"></label>
+        <input asp-for="CustomerInfo.CustomerName" class="form-control" />
+        <span asp-validation-for="CustomerInfo.CustomerName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CustomerInfo.Email" class="form-label"></label>
+        <input asp-for="CustomerInfo.Email" class="form-control" />
+        <span asp-validation-for="CustomerInfo.Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CustomerInfo.YearOfBirth" class="form-label"></label>
+        <input asp-for="CustomerInfo.YearOfBirth" class="form-control" />
+        <span asp-validation-for="CustomerInfo.YearOfBirth" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

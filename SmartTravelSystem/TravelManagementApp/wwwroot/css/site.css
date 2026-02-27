@@ -1,0 +1,45 @@
+/* Simple and clean styling */
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* Table styling */
+.table {
+  background-color: white;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+/* Form styling */
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Button spacing */
+.btn {
+  margin-right: 5px;
+}
+
+/* Alert styling */
+.alert {
+  border-radius: 4px;
+}

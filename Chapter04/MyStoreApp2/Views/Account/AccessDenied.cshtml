@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Không có quyền truy cập";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="alert alert-danger mt-5" role="alert">
+            <h4 class="alert-heading">
+                <i class="bi bi-exclamation-triangle-fill"></i> Không có quyền truy cập
+            </h4>
+            <p>Xin lỗi, bạn không có quyền truy cập vào trang này.</p>
+            <hr>
+            <p class="mb-0">
+                Chỉ có tài khoản <strong>Admin</strong> mới có quyền thực hiện thao tác này.
+            </p>
+        </div>
+
+        <div class="text-center mt-4">
+            <a asp-controller="Products" asp-action="Index" class="btn btn-primary">Quay lại danh sách sản phẩm</a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Về trang chủ</a>
+        </div>
+    </div>
+</div>

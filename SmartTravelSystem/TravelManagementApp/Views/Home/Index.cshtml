@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Welcome, @ViewBag.CustomerName</h2>
+        <p>Role: <strong>@ViewBag.Role</strong> | ID: @ViewBag.CustomerID</p>
+        <hr/>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h4>Menu</h4>
+        <div class="list-group">
+            <a asp-controller="Trip" asp-action="Index" class="list-group-item list-group-item-action">
+                View All Trips
+            </a>
+            <a asp-controller="Booking" asp-action="Index" class="list-group-item list-group-item-action">
+                @(ViewBag.Role == "Admin" ? "Manage All Bookings" : "My Bookings")
+            </a>
+        </div>
+    </div>
+    
+    @if (ViewBag.Role == "Admin")
+    {
+        <div class="col-md-6">
+            <h4>Admin Functions</h4>
+            <ul>
+                <li>Create, Edit, Delete Trips</li>
+                <li>View all customer bookings</li>
+                <li>Update booking status</li>
+            </ul>
+        </div>
+    }
+</div>

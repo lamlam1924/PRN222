@@ -1,0 +1,22 @@
+dotnet add package Microsoft.EntityFrameworkCore --version 8.0.23
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.23
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.23
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.23
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 8.0.23
+
+
+
+
+dotnet list package
+
+dotnet ef dbcontext scaffold "Server=localhost;Database=DBTravelCenter;User Id=sa;Password=123;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -o Models -c TravelContext --data-annotations --use-database-names --force
+
+dotnet aspnet-codegenerator controller -name TripController -m Trip -dc TravelContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+
+dotnet aspnet-codegenerator controller -name BookingController -m Booking -dc TravelContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+
+
+dotnet remove package Microsoft.AspNetCore.Authentication
+ dotnet remove package Microsoft.AspNetCore.Authentication.JwtBearer 
+ dotnet remove package System.IdentityModel.Tokens.Jwt
+ dotnet remove package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.0

@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoASPNETCoreMVC", "DemoASPNETCoreMVC\DemoASPNETCoreMVC.csproj", "{13D754A4-8926-45D5-9F97-6420B83D87DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyStoreApp", "MyStoreApp\MyStoreApp.csproj", "{CEF94429-A393-40C4-BFDA-E3B7B5F98A4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyStoreApp2", "MyStoreApp2\MyStoreApp2.csproj", "{9AF7F314-3EC8-4FC1-82B6-BB3B510343EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13D754A4-8926-45D5-9F97-6420B83D87DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13D754A4-8926-45D5-9F97-6420B83D87DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13D754A4-8926-45D5-9F97-6420B83D87DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13D754A4-8926-45D5-9F97-6420B83D87DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEF94429-A393-40C4-BFDA-E3B7B5F98A4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEF94429-A393-40C4-BFDA-E3B7B5F98A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEF94429-A393-40C4-BFDA-E3B7B5F98A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEF94429-A393-40C4-BFDA-E3B7B5F98A4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AF7F314-3EC8-4FC1-82B6-BB3B510343EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AF7F314-3EC8-4FC1-82B6-BB3B510343EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AF7F314-3EC8-4FC1-82B6-BB3B510343EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AF7F314-3EC8-4FC1-82B6-BB3B510343EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
