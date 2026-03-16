@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using TravelDataAccess.Models;
 
 namespace TravelManagementApp.Controllers
@@ -18,7 +19,7 @@ namespace TravelManagementApp.Controllers
         // GET: Booking
         public async Task<IActionResult> Index(string filter)
         {
-            var userRole = User.FindFirst("Role")?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
             
             IQueryable<Booking> query;
             
@@ -33,7 +34,7 @@ namespace TravelManagementApp.Controllers
             else
             {
                 // Customer chỉ xem bookings của mình
-                var customerId = int.Parse(User.FindFirst("CustomerId")?.Value ?? "0");
+                var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
                 query = _context.Bookings
                     .Include(b => b.Customer)
                     .Include(b => b.Trip)
@@ -55,6 +56,19 @@ namespace TravelManagementApp.Controllers
             return View(travelContext);
         }
 
+        // GET: Top 3 Customers có nhiều bookings nhất
+        public async Task<IActionResult> GetTop3CustomersHaveMaxBooking()
+        {
+            // Bước 1: Query top 3 customers
+            var top3 = await _context.Customers
+                .Include(c => c.Bookings)                    // Load bookings
+                .OrderByDescending(c => c.Bookings.Count)    // Sắp xếp giảm dần
+                .Take(3)                                     // Lấy 3 cái đầu
+                .ToListAsync();
+            
+            // Bước 2: Return về view
+            return View(top3);
+        }
         // GET: Booking/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -74,8 +88,8 @@ namespace TravelManagementApp.Controllers
             }
 
             // Check authorization: Admin can view all, Customer only their own
-            var userRole = User.FindFirst("Role")?.Value;
-            var customerId = int.Parse(User.FindFirst("CustomerId")?.Value ?? "0");
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
             
             if (userRole != "Admin" && booking.CustomerID != customerId)
             {
@@ -158,8 +172,8 @@ namespace TravelManagementApp.Controllers
             }
 
             // Check authorization: Admin can edit all, Customer only their own
-            var userRole = User.FindFirst("Role")?.Value;
-            var customerId = int.Parse(User.FindFirst("CustomerId")?.Value ?? "0");
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
             
             if (userRole != "Admin" && booking.CustomerID != customerId)
             {
@@ -186,8 +200,8 @@ namespace TravelManagementApp.Controllers
             var existingBooking = await _context.Bookings.AsNoTracking().FirstOrDefaultAsync(b => b.BookingID == id);
             if (existingBooking != null)
             {
-                var userRole = User.FindFirst("Role")?.Value;
-                var customerId = int.Parse(User.FindFirst("CustomerId")?.Value ?? "0");
+                var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+                var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
                 
                 if (userRole != "Admin" && existingBooking.CustomerID != customerId)
                 {
@@ -240,8 +254,8 @@ namespace TravelManagementApp.Controllers
             }
 
             // Check authorization: Admin can delete all, Customer only their own
-            var userRole = User.FindFirst("Role")?.Value;
-            var customerId = int.Parse(User.FindFirst("CustomerId")?.Value ?? "0");
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
             
             if (userRole != "Admin" && booking.CustomerID != customerId)
             {
@@ -260,8 +274,8 @@ namespace TravelManagementApp.Controllers
             if (booking != null)
             {
                 // Check authorization before delete
-                var userRole = User.FindFirst("Role")?.Value;
-                var customerId = int.Parse(User.FindFirst("CustomerId")?.Value ?? "0");
+                var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+                var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
                 
                 if (userRole != "Admin" && booking.CustomerID != customerId)
                 {
@@ -287,8 +301,8 @@ namespace TravelManagementApp.Controllers
             }
 
             // Check authorization
-            var userRole = User.FindFirst("Role")?.Value;
-            var customerId = int.Parse(User.FindFirst("CustomerId")?.Value ?? "0");
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
             
             if (userRole != "Admin" && booking.CustomerID != customerId)
             {
@@ -315,7 +329,7 @@ namespace TravelManagementApp.Controllers
         // Helper Methods
         private int GetCustomerIdForBooking(Booking booking)
         {
-            var userRole = User.FindFirst("Role")?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
             
             // Admin có thể tạo cho bất kỳ customer nào
             if (userRole == "Admin" && booking.CustomerID > 0)
@@ -324,7 +338,7 @@ namespace TravelManagementApp.Controllers
             }
             
             // Customer chỉ tạo cho chính mình
-            if (int.TryParse(User.FindFirst("CustomerId")?.Value, out int customerId))
+            if (int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int customerId))
             {
                 return customerId;
             }
@@ -373,7 +387,7 @@ namespace TravelManagementApp.Controllers
 
         private async Task PopulateDropdownsAsync(Booking? booking = null)
         {
-            var userRole = User.FindFirst("Role")?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
             
             // Load trips với thông tin đầy đủ hơn
             var trips = await _context.Trips
@@ -400,7 +414,7 @@ namespace TravelManagementApp.Controllers
             }
             else
             {
-                var customerId = int.Parse(User.FindFirst("CustomerId")?.Value ?? "0");
+                var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
                 ViewBag.CustomerID = customerId;
                 ViewBag.IsAdmin = false;
             }

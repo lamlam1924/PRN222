@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Book Appointment";
+    var doctor = ViewBag.Doctor as SU26_PRN222_Healthcare.CareBusiness.Entities.Doctor;
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="d-flex align-items-center mb-3">
+            <a asp-controller="Doctor" asp-action="Search" class="btn btn-outline-secondary btn-sm me-3">← Back</a>
+            <h2 class="mb-0">📅 Book Appointment</h2>
+        </div>
+
+        @if (doctor != null)
+        {
+            <div class="card mb-4" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb);">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-1">@doctor.DoctorName</h5>
+                    <span class="badge bg-primary me-2">@doctor.Specialty</span>
+                    <span class="text-muted small">License: <code>@doctor.LicenseNumber</code></span>
+                    <p class="mt-2 mb-0 text-muted small">Max <strong>@doctor.MaxPatients</strong> patients per day</p>
+                </div>
+            </div>
+        }
+
+        <div class="card">
+            <div class="card-body p-4">
+                @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+                {
+                    <div class="alert alert-danger">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <div>❌ @error.ErrorMessage</div>
+                        }
+                    </div>
+                }
+
+                <form method="post" asp-action="Book">
+                    <input type="hidden" name="doctorId" value="@(doctor?.ID)" />
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Appointment Date <span class="text-danger">*</span></label>
+                        <input type="date" name="appointmentDate" class="form-control form-control-lg"
+                               min="@ViewBag.MinDate" required />
+                        <div class="form-text">Please select a future date for your appointment.</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100">✅ Confirm Booking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

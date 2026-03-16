@@ -1,0 +1,36 @@
+@model IEnumerable<TravelDataAccess.Models.Customer>
+
+@{
+    ViewData["Title"] = "Top 3 Customers";
+}
+
+<h2>🏆 Top 3 Customers có nhiều Bookings nhất</h2>
+
+<a asp-action="Index" class="btn btn-secondary mb-3">← Quay lại</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Hạng</th>
+            <th>Tên</th>
+            <th>Code</th>
+            <th>Email</th>
+            <th>Số Bookings</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int rank = 1; }
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td><strong>@rank</strong></td>
+                <td>@customer.FullName</td>
+                <td>@customer.Code</td>
+                <td>@customer.Email</td>
+                <td><span class="badge bg-primary">@customer.Bookings.Count</span></td>
+            </tr>
+            rank++;
+        }
+    </tbody>
+</table>
+

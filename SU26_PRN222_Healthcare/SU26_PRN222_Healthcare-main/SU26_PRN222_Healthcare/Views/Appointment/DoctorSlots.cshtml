@@ -1,0 +1,82 @@
+@model List<SU26_PRN222_Healthcare.Models.DoctorSlotViewModel>
+@{
+    ViewData["Title"] = "Doctor Slot Capacity";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-0">📊 Doctor Slot Capacity</h2>
+        <p class="text-muted mb-0">Check how many slots are filled per doctor for a given date</p>
+    </div>
+    <a asp-action="AllAppointments" class="btn btn-outline-secondary">← All Appointments</a>
+</div>
+
+<!-- Date Picker -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" asp-action="DoctorSlots">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Select Date</label>
+                    <input type="date" name="date" class="form-control" value="@ViewBag.SelectedDate" />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">View</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h5 class="mb-3 text-muted">Slot status for <strong>@ViewBag.SelectedDateDisplay</strong></h5>
+
+<div class="row g-3">
+    @foreach (var item in Model)
+    {
+        string barColor = item.Percentage >= 100 ? "danger" : item.Percentage >= 75 ? "warning" : "success";
+        int displayPct = Math.Min(item.Percentage, 100);
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 @(!item.Doctor.Active ? "opacity-50" : "")">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="fw-bold">@item.Doctor.DoctorName</span>
+                        @if (!item.Doctor.Active)
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                        else if (item.Percentage >= 100)
+                        {
+                            <span class="badge bg-danger">Full</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Available</span>
+                        }
+                    </div>
+                    <p class="text-muted small mb-2">
+                        <span class="badge bg-primary">@item.Doctor.Specialty</span>
+                        &nbsp;<code class="small">@item.Doctor.LicenseNumber</code>
+                    </p>
+                    <div class="d-flex justify-content-between small mb-1">
+                        <span>Booked: <strong>@item.Booked</strong></span>
+                        <span>Max: <strong>@item.Doctor.MaxPatients</strong></span>
+                        <span>Free: <strong class="text-@barColor">@item.Remaining</strong></span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-@barColor" style="width: @displayPct%;"></div>
+                    </div>
+                    <p class="text-end text-muted small mt-1 mb-0">@item.Percentage% filled</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5 text-muted">
+        <div style="font-size:3rem">📊</div>
+        <p class="mt-2">No doctors found.</p>
+    </div>
+}

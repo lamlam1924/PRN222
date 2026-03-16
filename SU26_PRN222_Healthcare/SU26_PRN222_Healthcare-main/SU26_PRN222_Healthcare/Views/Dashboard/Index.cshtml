@@ -1,0 +1,156 @@
+@model SU26_PRN222_Healthcare.Models.DashboardStatsViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-0">🏠 Admin Dashboard</h2>
+        <p class="text-muted mb-0">System overview at a glance</p>
+    </div>
+    <span class="text-muted small">As of @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</span>
+</div>
+
+<!-- Summary Cards Row -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card text-white h-100" style="background: linear-gradient(135deg,#1a73e8,#0d47a1);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="mb-1 opacity-75 small">Total Doctors</p>
+                        <h2 class="mb-0 fw-bold">@Model.TotalDoctors</h2>
+                    </div>
+                    <div style="font-size:2.5rem">👨‍⚕️</div>
+                </div>
+                <p class="mb-0 mt-2 small opacity-75">
+                    ✅ @Model.ActiveDoctors Active &nbsp;|&nbsp; ⛔ @Model.InactiveDoctors Inactive
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white h-100" style="background: linear-gradient(135deg,#00897b,#00574b);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="mb-1 opacity-75 small">Total Patients</p>
+                        <h2 class="mb-0 fw-bold">@Model.TotalPatients</h2>
+                    </div>
+                    <div style="font-size:2.5rem">🧑‍💼</div>
+                </div>
+                <p class="mb-0 mt-2 small opacity-75">Registered patient accounts</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white h-100" style="background: linear-gradient(135deg,#6a1b9a,#4a148c);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="mb-1 opacity-75 small">Total Appointments</p>
+                        <h2 class="mb-0 fw-bold">@Model.TotalAppointments</h2>
+                    </div>
+                    <div style="font-size:2.5rem">📋</div>
+                </div>
+                <p class="mb-0 mt-2 small opacity-75">
+                    ✅ @Model.ActiveAppointments Active &nbsp;|&nbsp; ❌ @Model.CancelledAppointments Cancelled
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white h-100" style="background: linear-gradient(135deg,#e65100,#bf360c);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="mb-1 opacity-75 small">Today's Appointments</p>
+                        <h2 class="mb-0 fw-bold">@Model.TodayAppointments</h2>
+                    </div>
+                    <div style="font-size:2.5rem">📅</div>
+                </div>
+                <p class="mb-0 mt-2 small opacity-75">@DateTime.Today.ToString("dd/MM/yyyy")</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Links -->
+<div class="d-flex gap-2 flex-wrap mb-4">
+    <a asp-controller="Appointment" asp-action="AllAppointments" class="btn btn-outline-primary">📋 All Appointments</a>
+    <a asp-controller="Appointment" asp-action="DoctorSlots" class="btn btn-outline-info">📊 Doctor Slots</a>
+    <a asp-controller="Doctor" asp-action="Index" class="btn btn-outline-success">👨‍⚕️ Manage Doctors</a>
+</div>
+
+<div class="row g-4">
+    <!-- Stats by Doctor -->
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header fw-semibold">📊 Appointments by Doctor</div>
+            <div class="card-body p-0">
+                @if (!Model.StatsByDoctor.Any())
+                {
+                    <p class="text-center text-muted py-4">No appointment data yet.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Specialty</th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-center">Active</th>
+                                    <th class="text-center">Cancelled</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in Model.StatsByDoctor)
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@row.DoctorName</td>
+                                        <td><span class="badge bg-primary rounded-pill">@row.Specialty</span></td>
+                                        <td class="text-center fw-bold">@row.Total</td>
+                                        <td class="text-center text-success">@row.ActiveCount</td>
+                                        <td class="text-center text-danger">@(row.Total - row.ActiveCount)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats by Specialty -->
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header fw-semibold">🏥 Appointments by Specialty</div>
+            <div class="card-body">
+                @if (!Model.StatsBySpecialty.Any())
+                {
+                    <p class="text-center text-muted py-4">No data yet.</p>
+                }
+                else
+                {
+                    int maxCount = Model.StatsBySpecialty.Max(x => x.Count);
+                    @foreach (var row in Model.StatsBySpecialty)
+                    {
+                        int pct = maxCount > 0 ? (int)(row.Count * 100.0 / maxCount) : 0;
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-semibold">@row.Specialty</span>
+                                <span class="text-muted">@row.Count appt(s)</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-primary" style="width: @pct%;"></div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

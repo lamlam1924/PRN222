@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Movies>
+
+    <Movie>
+
+        <ID>3</ID>
+
+        <Title>King Kong</Title>
+
+        <OscarNominations>4</OscarNominations>
+
+        <OscarWins>3</OscarWins>
+
+    </Movie>
+
+    <Movie>
+
+        <ID>5</ID>
+
+        <Title>Superman Returns</Title>
+
+        <OscarNominations>1</OscarNominations>
+
+        <OscarWins>0</OscarWins>
+
+    </Movie>
+
+</Movies>

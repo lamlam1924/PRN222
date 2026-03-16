@@ -1,0 +1,102 @@
+@model IEnumerable<SU26_PRN222_Healthcare.CareBusiness.Entities.Appointment>
+@{
+    ViewData["Title"] = "My Appointments";
+    string currentFilter = ViewBag.Filter ?? "all";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-0">📅 My Appointments</h2>
+        <p class="text-muted mb-0">View and manage your scheduled appointments</p>
+    </div>
+    <a asp-controller="Doctor" asp-action="Search" class="btn btn-primary">🔍 Book Another</a>
+</div>
+
+<!-- Filter tabs -->
+<ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+        <a class="nav-link @(currentFilter == "all" ? "active" : "")"
+           asp-action="MyAppointments" asp-route-filter="all">All (@Model.Count())</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(currentFilter == "upcoming" ? "active" : "")"
+           asp-action="MyAppointments" asp-route-filter="upcoming">⏳ Upcoming</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(currentFilter == "past" ? "active" : "")"
+           asp-action="MyAppointments" asp-route-filter="past">📜 Past</a>
+    </li>
+</ul>
+
+@if (!Model.Any())
+{
+    <div class="card">
+        <div class="card-body text-center py-5 text-muted">
+            <div style="font-size:3rem">📅</div>
+            <h5 class="mt-3">No appointments found</h5>
+            <a asp-controller="Doctor" asp-action="Search" class="btn btn-primary mt-2">🔍 Find a Doctor</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Doctor</th>
+                            <th>Specialty</th>
+                            <th>Appointment Date</th>
+                            <th>Booked On</th>
+                            <th>Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var appt in Model)
+                        {
+                            bool upcoming = !appt.IsCancelled && appt.AppointmentDate.Date >= DateTime.Today;
+                            <tr class="@(appt.IsCancelled ? "table-secondary opacity-75" : "")">
+                                <td class="text-muted">@appt.ID</td>
+                                <td class="fw-semibold">@(appt.Doctor?.DoctorName ?? "–")</td>
+                                <td><span class="badge bg-primary rounded-pill">@(appt.Doctor?.Specialty ?? "–")</span></td>
+                                <td>@appt.AppointmentDate.ToString("dd/MM/yyyy")</td>
+                                <td class="text-muted small">@appt.BookingDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>
+                                    @if (appt.IsCancelled)
+                                    {
+                                        <span class="badge bg-danger">❌ Cancelled</span>
+                                    }
+                                    else if (upcoming)
+                                    {
+                                        <span class="badge bg-success">✅ Upcoming</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">📜 Past</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @if (!appt.IsCancelled && appt.AppointmentDate > DateTime.Now)
+                                    {
+                                        <form asp-action="CancelOwn" asp-route-id="@appt.ID" method="post"
+                                              onsubmit="return confirm('Cancel this appointment?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">🚫 Cancel</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">–</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow-lg">
+            <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #1a73e8, #0d47a1);">
+                <h3 class="mb-0">🏥 CareClinic</h3>
+                <p class="mb-0 mt-1 opacity-75 small">Create a Patient Account</p>
+            </div>
+            <div class="card-body p-4">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">❌ @ViewBag.Error</div>
+                }
+
+                <form method="post" asp-controller="Account" asp-action="Register">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Full Name</label>
+                        <input type="text" name="fullName" class="form-control" placeholder="Enter your full name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email Address</label>
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Create a password" required />
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Confirm Password</label>
+                        <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm your password" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Create Account</button>
+                </form>
+
+                <hr class="my-3">
+                <p class="text-center mb-0">
+                    Already have an account?
+                    <a asp-controller="Account" asp-action="Login" class="text-primary fw-semibold">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

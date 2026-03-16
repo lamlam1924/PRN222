@@ -1,0 +1,140 @@
+﻿@model SU26_PRN222_Healthcare.Models.AppointmentReportViewModel
+
+@{
+	ViewData["Title"] = "Appointment Report";
+}
+
+<div class="row">
+	<div class="col-md-12">
+		<h2 class="mb-3">Appointment Report</h2>
+
+		<!-- FORM FILTER -->
+		<form method="get" asp-action="Report" class="mb-4">
+			<div class="row">
+				<div class="col-md-3 mb-3">
+					<label class="form-label">Keyword</label>
+					@* CHỖ GIỮ LẠI GIÁ TRỊ FILTER *@
+					<input name="Keyword" value="@Model.Filter.Keyword" class="form-control"
+						   placeholder="Patient / Doctor / Specialty / Email" />
+				</div>
+
+				<div class="col-md-2 mb-3">
+					<label class="form-label">From Date</label>
+					<input name="FromDate" type="date"
+						   value="@(Model.Filter.FromDate?.ToString("yyyy-MM-dd"))"
+						   class="form-control" />
+				</div>
+
+				<div class="col-md-2 mb-3">
+					<label class="form-label">To Date</label>
+					<input name="ToDate" type="date"
+						   value="@(Model.Filter.ToDate?.ToString("yyyy-MM-dd"))"
+						   class="form-control" />
+				</div>
+
+				<div class="col-md-1 mb-3">
+					<label class="form-label">Top</label>
+					<input name="Top" type="number" min="1" value="@Model.Filter.Top" class="form-control" />
+				</div>
+
+				<div class="col-md-2 mb-3">
+					<label class="form-label">Specialty</label>
+					<input name="Specialty" value="@Model.Filter.Specialty" class="form-control"
+						   placeholder="e.g. Cardiology" />
+				</div>
+
+				<div class="col-md-2 mb-3">
+					<label class="form-label">Doctor Active</label>
+					<select name="DoctorActive" class="form-select">
+						<option value="">All</option>
+						@if (Model.Filter.DoctorActive == true)
+						{
+							<option value="true" selected>Active</option>
+						}
+						else
+						{
+							<option value="true">Active</option>
+						}
+
+						@if (Model.Filter.DoctorActive == false)
+						{
+							<option value="false" selected>Inactive</option>
+						}
+						else
+						{
+							<option value="false">Inactive</option>
+						}
+					</select>
+				</div>
+
+				<div class="col-md-3 mb-3">
+					<div class="form-check mt-4 pt-2">
+						<input name="IncludeCancelled" type="checkbox" value="true"
+							   class="form-check-input"
+							   @(Model.Filter.IncludeCancelled ? "checked" : "") />
+						<label class="form-check-label">Include Cancelled</label>
+					</div>
+				</div>
+
+				<div class="col-md-2 mb-3">
+					<button type="submit" class="btn btn-primary mt-4">Search</button>
+					<a asp-action="Report" class="btn btn-secondary mt-4">Reset</a>
+				</div>
+			</div>
+		</form>
+
+		<!-- SUMMARY -->
+		<div class="mb-4">
+			<p><strong>Total Appointments:</strong> @Model.TotalAppointments</p>
+			<p><strong>Total Cancelled:</strong> @Model.TotalCancelled</p>
+			<p><strong>Total Patients:</strong> @Model.TotalPatients</p>
+			<p><strong>Total Doctors:</strong> @Model.TotalDoctors</p>
+			<p><strong>Total Doctor MaxPatients (sum):</strong> @Model.TotalDoctorMaxPatients</p>
+		</div>
+
+		<!-- TABLE -->
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Appointment ID</th>
+					<th>Patient</th>
+					<th>Email</th>
+					<th>Doctor</th>
+					<th>Specialty</th>
+					<th>Booking Date</th>
+					<th>Appointment Date</th>
+					<th>Cancelled</th>
+					<th>Doctor Active</th>
+					<th>Doctor MaxPatients</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model.Items != null && Model.Items.Any())
+				{
+					foreach (var item in Model.Items)
+					{
+						<tr>
+							@* CHỖ ĐỔ DỮ LIỆU RA VIEW *@
+							<td>@item.AppointmentID</td>
+							<td>@item.PatientName</td>
+							<td>@item.PatientEmail</td>
+							<td>@item.DoctorName</td>
+							<td>@item.Specialty</td>
+							<td>@item.BookingDate.ToString("dd/MM/yyyy HH:mm")</td>
+							<td>@item.AppointmentDate.ToString("dd/MM/yyyy HH:mm")</td>
+							<td>@(item.IsCancelled ? "Yes" : "No")</td>
+							<td>@(item.DoctorActive ? "Yes" : "No")</td>
+							<td>@item.DoctorMaxPatients</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr>
+						<td colspan="10">No data found.</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
